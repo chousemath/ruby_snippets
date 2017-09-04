@@ -10,20 +10,9 @@ def is_palindrome(number)
   true
 end
 
-arr1 = []
-arr2 = []
-for i in 1..9
-  for j in 0..9
-    for k in 0..9
-      arr1.push(Integer"#{i}#{j}#{k}")
-      arr2.push(Integer"#{i}#{j}#{k}")
-    end
-  end
-end
-
 max = 0
-arr1.each do |val1|
-  arr2.each do |val2|
+(100..999).each do |val1|
+  (100..999).each do |val2|
     prod = val1 * val2
     max = (max > prod) ? max : prod if is_palindrome(prod)
   end
