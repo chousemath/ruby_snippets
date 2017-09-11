@@ -13,40 +13,76 @@ class Euler11
     @@num_arr_2d
   end
 
-  def self.calc_left_sum(arr_2d, row_index, col_index)
+  def self.calc_left_prod(arr_2d, row_index, col_index)
     return 0 if col_index - 3 < 0
-    sum = 0
+    prod_array = []
     for i in 0..3
-      sum += arr_2d[row_index][col_index - i]
+      prod_array << arr_2d[row_index][col_index - i]
     end
-    sum
+    prod_array.inject(:*)
   end
 
-  def self.calc_right_sum(arr_2d, row_index, col_index)
+  def self.calc_left_down_prod(arr_2d, row_index, col_index)
+    return 0 if (col_index - 3 < 0) || (row_index + 3 > 19)
+    prod_array = []
+    for i in 0..3
+      prod_array << arr_2d[row_index + i][col_index - i]
+    end
+    prod_array.inject(:*)
+  end
+
+  def self.calc_left_up_prod(arr_2d, row_index, col_index)
+    return 0 if (col_index - 3 < 0) || (row_index - 3 < 0)
+    prod_array = []
+    for i in 0..3
+      prod_array << arr_2d[row_index - i][col_index - i]
+    end
+    prod_array.inject(:*)
+  end
+
+  def self.calc_right_prod(arr_2d, row_index, col_index)
     return 0 if col_index + 3 > 19
-    sum = 0
+    prod_array = []
     for i in 0..3
-      sum += arr_2d[row_index][col_index + i]
+      prod_array << arr_2d[row_index][col_index + i]
     end
-    sum
+    prod_array.inject(:*)
   end
 
-  def self.calc_up_sum(arr_2d, row_index, col_index)
+  def self.calc_right_down_prod(arr_2d, row_index, col_index)
+    return 0 if (col_index + 3 > 19) || (row_index + 3 > 19)
+    prod_array = []
+    for i in 0..3
+      prod_array << arr_2d[row_index + i][col_index + i]
+    end
+    prod_array.inject(:*)
+  end
+
+  def self.calc_right_up_prod(arr_2d, row_index, col_index)
+    return 0 if (col_index + 3 > 19) || (row_index - 3 < 0)
+    prod_array = []
+    for i in 0..3
+      prod_array << arr_2d[row_index - i][col_index + i]
+    end
+    prod_array.inject(:*)
+  end
+
+  def self.calc_up_prod(arr_2d, row_index, col_index)
     return 0 if row_index - 3 < 0
-    sum = 0
+    prod_array = []
     for i in 0..3
-      sum += arr_2d[row_index - i][col_index]
+      prod_array << arr_2d[row_index - i][col_index]
     end
-    sum
+    prod_array.inject(:*)
   end
 
-  def self.calc_down_sum(arr_2d, row_index, col_index)
+  def self.calc_down_prod(arr_2d, row_index, col_index)
     return 0 if row_index + 3 > 19
-    sum = 0
+    prod_array = []
     for i in 0..3
-      sum += arr_2d[row_index + i][col_index]
+      prod_array << arr_2d[row_index + i][col_index]
     end
-    sum
+    prod_array.inject(:*)
   end
 
   def self.max_of_four(sumArray)
@@ -54,8 +90,20 @@ class Euler11
   end
 end
 
+solution_array = []
 for i in 0...(Euler11.num_arr_2d.length)
   for j in 0...(Euler11.num_arr_2d.first.length)
-    puts Euler11.num_arr_2d[i][j]
+    solution_array.push(Euler11.max_of_four([
+      Euler11.calc_down_prod(Euler11.num_arr_2d, i, j),
+      Euler11.calc_up_prod(Euler11.num_arr_2d, i, j),
+      Euler11.calc_left_prod(Euler11.num_arr_2d, i, j),
+      Euler11.calc_right_prod(Euler11.num_arr_2d, i, j),
+      Euler11.calc_left_down_prod(Euler11.num_arr_2d, i, j),
+      Euler11.calc_left_up_prod(Euler11.num_arr_2d, i, j),
+      Euler11.calc_right_down_prod(Euler11.num_arr_2d, i, j),
+      Euler11.calc_right_up_prod(Euler11.num_arr_2d, i, j)
+    ]))
   end
 end
+
+puts solution_array.max
